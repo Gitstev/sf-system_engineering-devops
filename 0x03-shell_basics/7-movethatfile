@@ -1,0 +1,2 @@
+#!/bin/bash
+mv /tmp/tigo /tmp/my_first_directory

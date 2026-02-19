@@ -1,0 +1,17 @@
+Script Explanation
+
+    find . -type f -name '*.gif' -o -name '*.GIF'
+        find .: Starts the search in the current directory (.) and its subdirectories.
+        -type f: Ensures only regular files (not directories or other file types) are listed.
+        -name '*.gif' -o -name '*.GIF': Finds files with a .gif or .GIF extension (handles case sensitivity in the search pattern, a more robust alternative to -iname in a pipeline context).
+    | rev
+        Reverses the order of characters in each line of the output. This is a key step to help cut accurately remove only the extension, even if the filename itself contains dots.
+    | cut -d'/' -f1
+        Uses / as a delimiter (-d'/') and selects the first field (-f1), which isolates the filename from the full path.
+    | cut -d'.' -f2-
+        Uses . as a delimiter (-d'.') and selects all fields from the second to the end (-f2-). Because the string was reversed earlier, this effectively removes the extension part (the first field in the reversed string).
+    | rev
+        Reverses the string back to its original order (the filename without the extension).
+    | sort -f
+        Sorts the resulting list of filenames case-insensitively (-f) by byte value, ensuring the correct sorting order (e.g., "aaa" before "bbb", ".b" before "a", and "Rona" after "jay").
+    The entire command ensures the output ends with a newline, as is standard for shell command output. 
